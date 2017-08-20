@@ -3259,19 +3259,6 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Label15: TLabel
-    Left = 848
-    Top = 128
-    Width = 96
-    Height = 32
-    Caption = 'Label15'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -27
-    Font.Name = 'MS Sans Serif'
-    Font.Style = []
-    ParentFont = False
-  end
   object Panel1: TPanel
     Left = 424
     Top = 120

@@ -9,7 +9,7 @@
 #pragma link "CSPIN"
 #pragma resource "*.dfm"
 TForm1 *Form1;
-int x = -8, y = -8;
+int x = -1, y = -1;
 int gracz1pkt = 0, gracz2pkt = 0;
 int poziomTrudnosci = 1;
 bool dzwiek = true;
@@ -17,6 +17,10 @@ bool graZKomputerem;
 int pktDoZdobycia = 1;
 bool rozgrywkaRozpoczeta = false;
 bool przeszkodyAktywne = false;
+bool gracz1ruchWGore = false;
+bool gracz1ruchWDol = false;
+bool gracz2ruchWGore = false;
+bool gracz2ruchWDol = false;
 
 void wlaczWylaczGracza1 (bool onOff)
 {
@@ -84,20 +88,20 @@ void dostosujPoziomTrudnosci(int poziomTrud)
                 {
                         Form1->Gracz1Paletka->Height = 135;
                         Form1->Gracz2Paletka->Height = 135;
-                        Form1->TimerPileczka->Interval = 60;
+                        Form1->TimerPileczka->Interval = 3;
                         break;
                 }
                 case 2:
                 {
-                        Form1->Gracz1Paletka->Height = 120;
-                        Form1->Gracz2Paletka->Height = 120;
-                        Form1->TimerPileczka->Interval = 50;
+                        Form1->Gracz1Paletka->Height = 110;
+                        Form1->Gracz2Paletka->Height = 110;
+                        Form1->TimerPileczka->Interval = 2;
                 }
                 case 3:
                 {
-                        Form1->Gracz1Paletka->Height = 105;
-                        Form1->Gracz2Paletka->Height = 105;
-                        Form1->TimerPileczka->Interval = 40;
+                        Form1->Gracz1Paletka->Height = 85;
+                        Form1->Gracz2Paletka->Height = 85;
+                        Form1->TimerPileczka->Interval = 1;
                 }
 
         }
@@ -106,10 +110,18 @@ void grajJakoKomputer (TImage * paletka, TImage * pilka, int trudnosc)
 {
                 if (pilka->Left < Form1->Stol->Width/3*trudnosc)
                 {
+                        gracz2ruchWGore = false;
+                        gracz2ruchWDol = false;
                         if (paletka->Top > pilka->Top)
+                        {
                                 paletka->Top -= 10;
+                                gracz2ruchWGore = true;
+                        }
                         else if ((paletka->Top + paletka->Height) < (pilka->Top + pilka->Height))
+                        {
                                 paletka->Top +=10;
+                                gracz2ruchWDol = true;
+                        }
                 }
 }
 void rozpocznijNowySet(TImage * pilka, TTimer * timerPilki, TShape * stol)
@@ -128,7 +140,7 @@ void rozpocznijNowySet(TImage * pilka, TTimer * timerPilki, TShape * stol)
         Form1->TimerPileczka->Enabled = true;
         pilka->Left = stol->Width / 2;
         pilka->Top = stol->Height / 2;
-        x  = -8; y = -8;
+        x  = -2; y = -2;
         wlaczWylaczPilke(true);
 
 }
@@ -171,43 +183,6 @@ void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
                 {
                 y = -y;
                 }
-}
-float obliczKatOdbiciaX (TImage * pilka, TImage * paletka, int x)
-{
-
-        float dlugoscPaletki = paletka->Height;
-        float polozenieSrodkaPilkiWzgledemSrodkaPaletki = pilka->Top + (pilka->Height/2) - paletka->Top + paletka->Height/2;
-        float katOdbicia = polozenieSrodkaPilkiWzgledemSrodkaPaletki / dlugoscPaletki;
-        return katOdbicia;
-
-
-        /*int jednaCzwartaPaletki = paletka->Height / 4;
-        int gornyNaroznikPaletki = paletka->Top;
-        int gornaKrawedzZewnetrznegoObszaruPaletki = paletka->Top + 2;
-        int gornaKrawedzWewnetrznegoObszaruPaletki = paletka->Top + jednaCzwartaPaletki;
-        int dolnaKrawedzWewnetrznegoObszaruPaletki = paletka->Top + paletka->Height - jednaCzwartaPaletki;
-        int dolnaKrawedzZewnetrznegoObszaruPaletki = paletka->Top + paletka->Height - 2;
-        int dolnyKraweznikPaletki = paletka->Top + paletka->Height;
-        int srodekPilki = pilka->Top + (pilka->Height / 2);
-
-        if (srodekPilki >= gornyNaroznikPaletki && srodekPilki <= gornaKrawedzZewnetrznegoObszaruPaletki)
-                return -x;
-
-        if (srodekPilki > gornaKrawedzZewnetrznegoObszaruPaletki && srodekPilki < gornaKrawedzWewnetrznegoObszaruPaletki
-                && !(x < 4 && x> -4))
-                return -0.5 * x;
-
-        if (srodekPilki >= gornaKrawedzWewnetrznegoObszaruPaletki && srodekPilki <=  dolnaKrawedzWewnetrznegoObszaruPaletki)
-                return -x;
-
-        if (srodekPilki > dolnaKrawedzWewnetrznegoObszaruPaletki && srodekPilki <  dolnaKrawedzZewnetrznegoObszaruPaletki
-                && !(x < 4 && x> -4))
-                return -0.5 * x;
-
-        if (srodekPilki >= dolnaKrawedzZewnetrznegoObszaruPaletki && srodekPilki <= dolnyKraweznikPaletki)
-                return -x;
-        else     */
-                return x;
 }
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -265,12 +240,32 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
                 if (rozgrywkaRozpoczeta == true) Form1->Button6->Visible = true;
                 else  Form1->Button6->Visible = false;
         }
-        if (Key == VK_UP)       Gracz1WGore->Enabled = true;
-        if (Key == VK_DOWN)     Gracz1WDol->Enabled = true;
+        if (Key == VK_UP)
+        {
+                Gracz1WGore->Enabled = true;
+                gracz1ruchWGore = true;
+                gracz1ruchWDol = false;
+        }
+        if (Key == VK_DOWN)
+        {
+                Gracz1WDol->Enabled = true;
+                gracz1ruchWGore = false;
+                gracz1ruchWDol = true;
+        }
         if (graZKomputerem == false)
         {
-                if (Key == 0x51)        Gracz2WGore->Enabled = true;
-                if (Key == 0x41)        Gracz2WDol->Enabled = true;
+                if (Key == 0x51)
+                {
+                        Gracz2WGore->Enabled = true;
+                        gracz2ruchWGore = true;
+                        gracz2ruchWDol = false;
+                }
+                if (Key == 0x41)
+                {
+                        Gracz2WDol->Enabled = true;
+                        gracz2ruchWGore = false;
+                        gracz2ruchWDol = true;
+                }
         }
 }
 //---------------------------------------------------------------------------
@@ -300,7 +295,6 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 {
         Pileczka->Left += x;
         Pileczka->Top += y;
-        Form1->Label15->Caption = obliczKatOdbiciaX (Pileczka, Gracz2Paletka, x);
         if (Pileczka->Top >= Stol->Top) y = -y;
         if ((Pileczka->Top + Pileczka->Height) <=  (Stol->Top + Stol->Height)) y = -y;
         // skucha  gracza 1
@@ -319,7 +313,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 }
         }
         // skucha gracza 2
-        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 9))
+        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 15))
         {
                 wlaczWylaczPilke(false);
                 wlaczWylaczGracza1(false);
@@ -334,19 +328,32 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 }
         }
         // odbicie od paletek
-        if ((Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
-                && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
-                && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left)
-                ||
-                (Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
+        if ((Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
                 && Pileczka->Top + Pileczka->Height/2 < Gracz2Paletka->Top + Gracz2Paletka->Height
-                && Pileczka->Left <= Gracz2Paletka->Left + Gracz2Paletka->Width))
+                && Pileczka->Left <= Gracz2Paletka->Left + Gracz2Paletka->Width)
+                || (Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
+                && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
+                && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left))
         {
-           /*    if (Pileczka->Left < Stol->Width / 2)
-                        x = obliczKatOdbiciaX (Pileczka, Gracz2Paletka, x);
-                else
-                        x = obliczKatOdbiciaX (Pileczka, Gracz1Paletka, x); */
-                        x = -x;
+                if (!(x > -4 && x < 4))
+                {
+                        if (gracz1ruchWGore || gracz2ruchWGore)
+                        {
+                                if (y > 0)
+                                        x = -1.2 * x;
+                                else
+                                        x = -0.8 * x;
+                        }
+                        else if (gracz1ruchWDol || gracz2ruchWDol)
+                        {
+                                if (y > 0)
+                                        x = -0.8 * x;
+                                else
+                                        x = -1.2 * x;
+                        }
+                        else
+                                x = -x;
+                }
                 if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
         }
         // odbicie od przeszkod
