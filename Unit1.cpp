@@ -14,7 +14,7 @@ int gracz1pkt = 0, gracz2pkt = 0;
 int poziomTrudnosci = 1;
 bool dzwiek = true;
 bool graZKomputerem;
-int pktDoZdobycia = 10;
+int pktDoZdobycia = 1;
 bool rozgrywkaRozpoczeta = false;
 bool przeszkodyAktywne = false;
 
@@ -114,12 +114,11 @@ void grajJakoKomputer (TImage * paletka, TImage * pilka, int trudnosc)
 }
 void rozpocznijNowySet(TImage * pilka, TTimer * timerPilki, TShape * stol)
 {
-        Form1->Label9->Caption = gracz2pkt;
-        Form1->Label10->Caption = gracz1pkt;
         Form1->Panel1->Visible = false;
         Form1->Panel2->Visible = false;
         Form1->Panel3->Visible = true;
         Form1->Gracz1Paletka->Visible = true;
+        if (!graZKomputerem)    Form1->Gracz2Paletka->Visible = true;
         wlaczWylaczPrzeszkody(przeszkodyAktywne);
         Application->ProcessMessages(); Sleep(2000);
         Form1->Gracz1Paletka->Top = 216;
@@ -137,6 +136,8 @@ void rozpocznijNowaPartie(TImage * pilka, TTimer * timerPilki, TShape * stol)
 {
         gracz1pkt = 0;
         gracz2pkt = 0;
+        Form1->Label9->Caption = 0;
+        Form1->Label10->Caption = 0;
         rozpocznijNowySet(pilka, timerPilki, stol);
 }
 void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
@@ -147,65 +148,66 @@ void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
         int pilkaDolnaKrawedz = pilka->Top + pilka->Height;
         int pilkaSrodekPionowo = pilka->Top + pilka->Height/2;
         int pilkaSrodekPoziomo = pilka->Left + pilka->Width/2;
+        int przeszkodaLewaKrawedz = przeszkoda->Left;
+        int przeszkodaPrawaKrawedz = przeszkoda->Left + przeszkoda->Width;
+        int przeszkodaGornaKrawedz = przeszkoda->Top;
+        int przeszkodaDolnaKrawedz = przeszkoda->Top + przeszkoda->Height;
 
-        if ( x > 0 && pilkaPrawaKrawedz >= przeszkoda->Left
-                && )
-
+        if ((pilkaSrodekPionowo >= przeszkodaGornaKrawedz
+                && pilkaSrodekPionowo <= przeszkodaDolnaKrawedz)
+                && ((x > 0 && pilkaPrawaKrawedz >= przeszkodaLewaKrawedz
+                &&  pilkaPrawaKrawedz <= (przeszkodaLewaKrawedz + 9))
+                || (x < 0 && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz
+                && pilkaLewaKrawedz >= (przeszkodaPrawaKrawedz - 9))))
+        {
                 x = -x;
+        }
+          if ((pilkaSrodekPoziomo >= przeszkodaLewaKrawedz
+                && pilkaSrodekPoziomo <= przeszkodaPrawaKrawedz)
+                && ((y > 0 && pilkaDolnaKrawedz >= przeszkodaGornaKrawedz
+                && pilkaDolnaKrawedz <= (przeszkodaGornaKrawedz + 9))
+                || (y < 0 && pilkaGornaKrawedz <= przeszkodaDolnaKrawedz
+                && pilkaGornaKrawedz >= (przeszkodaDolnaKrawedz - 9))))
+                {
+                y = -y;
+                }
+}
+float obliczKatOdbiciaX (TImage * pilka, TImage * paletka, int x)
+{
 
-       /* if (pilkaGornaKrawedz <= (przeszkoda->Top + przeszkoda->Height))
-        {
-                if ((pilkaPrawaKrawedz == przeszkoda->Left)
-                || (pilkaLewaKrawedz == (przeszkoda->Left + przeszkoda->Width)))
-                {
-                        x = -x; y = -y;
-                }
-                else if (pilkaPrawaKrawedz >= przeszkoda->Left
-                && pilkaLewaKrawedz <= (przeszkoda->Left + przeszkoda->Width))
-                {
-                        y = -y;
-                }
-        }
-        if (pilkaDolnaKrawedz >= (przeszkoda->Top))
-        {
-                if ((pilkaPrawaKrawedz == przeszkoda->Left)
-                || (pilkaLewaKrawedz == (przeszkoda->Left + przeszkoda->Width)))
-                {
-                        x = -x; y = -y;
-                }
-                else if (pilkaPrawaKrawedz >= przeszkoda->Left
-                && pilkaLewaKrawedz <= (przeszkoda->Left + przeszkoda->Width))
-                {
-                        y = -y;
-                }
-        }
-        if (pilkaPrawaKrawedz >= (przeszkoda->Left))
-        {
-                if ((pilkaDolnaKrawedz == przeszkoda->Top)
-                || (pilkaGornaKrawedz == (przeszkoda->Top + przeszkoda->Height)))
-                {
-                        x = -x; y = -y;
-                }
-                else if (pilkaDolnaKrawedz >= przeszkoda->Top
-                && pilkaGornaKrawedz <= (przeszkoda->Top + przeszkoda->Height))
-                {
-                        y = -y;
-                }
-        }
-        if (pilkaLewaKrawedz <= (przeszkoda->Left + przeszkoda->Width))
-        {
-                if ((pilkaDolnaKrawedz == przeszkoda->Top)
-                || (pilkaGornaKrawedz == (przeszkoda->Top + przeszkoda->Height)))
-                {
-                        x = -x; y = -y;
-                }
-                else if (pilkaDolnaKrawedz >= przeszkoda->Top
-                && pilkaGornaKrawedz <= (przeszkoda->Top + przeszkoda->Height))
-                {
-                        y = -y;
-                }
-        }   */
+        float dlugoscPaletki = paletka->Height;
+        float polozenieSrodkaPilkiWzgledemSrodkaPaletki = pilka->Top + (pilka->Height/2) - paletka->Top + paletka->Height/2;
+        float katOdbicia = polozenieSrodkaPilkiWzgledemSrodkaPaletki / dlugoscPaletki;
+        return katOdbicia;
 
+
+        /*int jednaCzwartaPaletki = paletka->Height / 4;
+        int gornyNaroznikPaletki = paletka->Top;
+        int gornaKrawedzZewnetrznegoObszaruPaletki = paletka->Top + 2;
+        int gornaKrawedzWewnetrznegoObszaruPaletki = paletka->Top + jednaCzwartaPaletki;
+        int dolnaKrawedzWewnetrznegoObszaruPaletki = paletka->Top + paletka->Height - jednaCzwartaPaletki;
+        int dolnaKrawedzZewnetrznegoObszaruPaletki = paletka->Top + paletka->Height - 2;
+        int dolnyKraweznikPaletki = paletka->Top + paletka->Height;
+        int srodekPilki = pilka->Top + (pilka->Height / 2);
+
+        if (srodekPilki >= gornyNaroznikPaletki && srodekPilki <= gornaKrawedzZewnetrznegoObszaruPaletki)
+                return -x;
+
+        if (srodekPilki > gornaKrawedzZewnetrznegoObszaruPaletki && srodekPilki < gornaKrawedzWewnetrznegoObszaruPaletki
+                && !(x < 4 && x> -4))
+                return -0.5 * x;
+
+        if (srodekPilki >= gornaKrawedzWewnetrznegoObszaruPaletki && srodekPilki <=  dolnaKrawedzWewnetrznegoObszaruPaletki)
+                return -x;
+
+        if (srodekPilki > dolnaKrawedzWewnetrznegoObszaruPaletki && srodekPilki <  dolnaKrawedzZewnetrznegoObszaruPaletki
+                && !(x < 4 && x> -4))
+                return -0.5 * x;
+
+        if (srodekPilki >= dolnaKrawedzZewnetrznegoObszaruPaletki && srodekPilki <= dolnyKraweznikPaletki)
+                return -x;
+        else     */
+                return x;
 }
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -242,7 +244,7 @@ void __fastcall TForm1::Gracz2WDolTimer(TObject *Sender)
 {
         if (graZKomputerem == false)
         {
-                if ((Gracz2Paletka->Top) < Stol->Height -  Gracz2Paletka->Height) Gracz2Paletka->Top += 10;
+                if ((Gracz2Paletka->Top) < Stol->Height -  Gracz2Paletka->Height/2) Gracz2Paletka->Top += 10;
         }
         else
         {
@@ -260,7 +262,7 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
                 wlaczWylaczGracza2(false);
                 Form1->Panel1->Visible = true;
                 Form1->Button6->Visible = true;
-                if (rozgrywkaRozpoczeta = true) Form1->Button6->Visible = true;
+                if (rozgrywkaRozpoczeta == true) Form1->Button6->Visible = true;
                 else  Form1->Button6->Visible = false;
         }
         if (Key == VK_UP)       Gracz1WGore->Enabled = true;
@@ -290,13 +292,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 {
         wlaczWylaczGracza1 (false);
         wlaczWylaczGracza2 (false);
-        //TimerPileczka->Enabled = false;
-        //Pileczka->Visible =false;
-        //Panel1->Visible = true;
-        //Panel2->Visible = false;
-        //Form1->Gracz1Paletka->Visible = false;
-        //Form1->Gracz2Paletka->Visible = false;
-        //Form1->Button6->Visible = false;
+
 }
 //---------------------------------------------------------------------------
 
@@ -304,41 +300,53 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 {
         Pileczka->Left += x;
         Pileczka->Top += y;
-
+        Form1->Label15->Caption = obliczKatOdbiciaX (Pileczka, Gracz2Paletka, x);
         if (Pileczka->Top >= Stol->Top) y = -y;
         if ((Pileczka->Top + Pileczka->Height) <=  (Stol->Top + Stol->Height)) y = -y;
         // skucha  gracza 1
         if ((Pileczka->Left + Pileczka->Width) > (Gracz1Paletka->Left + 15))
         {
-                TimerPileczka->Enabled = false;
-                Pileczka->Visible = false;
-                gracz2pkt++;
+                wlaczWylaczPilke(false);
+                wlaczWylaczGracza1(false);
+                if (!graZKomputerem)    wlaczWylaczGracza2(false);
+                Form1->Label9->Caption = ++gracz2pkt;
+                if (gracz2pkt < pktDoZdobycia)
+                {
                 if( Application->MessageBox(
-			"Punkt dla gracza 2. Kliknij OK aby zaserwowac pilke.","" ,
+			"Punkt dla gracza 2. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
 	                rozpocznijNowySet(Pileczka, TimerPileczka, Stol);
+                }
         }
         // skucha gracza 2
         if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 9))
         {
-                TimerPileczka->Enabled = false;
-                Pileczka->Visible = false;
-                gracz1pkt++;
+                wlaczWylaczPilke(false);
+                wlaczWylaczGracza1(false);
+                if (!graZKomputerem)    wlaczWylaczGracza2(false);
+                Form1->Label10->Caption = ++gracz1pkt;
+                if (gracz1pkt < pktDoZdobycia)
+                {
                 if( Application->MessageBox(
-			"Punkt dla gracza 1. Kliknij OK aby zaserwowac pilke.","" ,
+			"Punkt dla gracza 1. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
 	                rozpocznijNowySet(Pileczka, TimerPileczka, Stol);
+                }
         }
         // odbicie od paletek
-        if ((Pileczka->Top > Gracz1Paletka->Top - Pileczka->Height/2
-                && Pileczka->Top < Gracz1Paletka->Top + Gracz1Paletka->Height
+        if ((Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
+                && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
                 && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left)
                 ||
-                (Pileczka->Top > Gracz2Paletka->Top - Pileczka->Height/2
-                && Pileczka->Top < Gracz2Paletka->Top + Gracz2Paletka->Height
+                (Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
+                && Pileczka->Top + Pileczka->Height/2 < Gracz2Paletka->Top + Gracz2Paletka->Height
                 && Pileczka->Left <= Gracz2Paletka->Left + Gracz2Paletka->Width))
         {
-                x = -x;
+           /*    if (Pileczka->Left < Stol->Width / 2)
+                        x = obliczKatOdbiciaX (Pileczka, Gracz2Paletka, x);
+                else
+                        x = obliczKatOdbiciaX (Pileczka, Gracz1Paletka, x); */
+                        x = -x;
                 if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
         }
         // odbicie od przeszkod

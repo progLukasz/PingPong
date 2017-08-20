@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 173
-  Top = 58
+  Left = 415
+  Top = 53
   Width = 1135
   Height = 627
   Caption = 'Form1'
@@ -3259,9 +3259,22 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
+  object Label15: TLabel
+    Left = 848
+    Top = 128
+    Width = 96
+    Height = 32
+    Caption = 'Label15'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object Panel1: TPanel
-    Left = 24
-    Top = 168
+    Left = 424
+    Top = 120
     Width = 273
     Height = 377
     TabOrder = 0
@@ -3326,8 +3339,8 @@ object Form1: TForm1
     end
   end
   object Panel2: TPanel
-    Left = 784
-    Top = 136
+    Left = 424
+    Top = 120
     Width = 273
     Height = 377
     TabOrder = 1
@@ -3464,8 +3477,8 @@ object Form1: TForm1
     end
   end
   object Panel3: TPanel
-    Left = 712
-    Top = 72
+    Left = 448
+    Top = 64
     Width = 225
     Height = 49
     Caption = 'Nowy set'
@@ -3479,25 +3492,25 @@ object Form1: TForm1
     Visible = False
   end
   object Gracz1WGore: TTimer
-    Interval = 100
+    Interval = 80
     OnTimer = Gracz1WGoreTimer
     Left = 944
     Top = 24
   end
   object Gracz1WDol: TTimer
-    Interval = 100
+    Interval = 80
     OnTimer = Gracz1WDolTimer
     Left = 944
     Top = 56
   end
   object Gracz2WGore: TTimer
-    Interval = 100
+    Interval = 80
     OnTimer = Gracz2WGoreTimer
     Left = 56
     Top = 64
   end
   object Gracz2WDol: TTimer
-    Interval = 100
+    Interval = 80
     OnTimer = Gracz2WDolTimer
     Left = 56
     Top = 32
