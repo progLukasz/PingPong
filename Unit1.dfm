@@ -5,6 +5,8 @@ object Form1: TForm1
   Height = 627
   Caption = 'Form1'
   Color = clBtnFace
+  UseDockManager = True
+  DockSite = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -24,7 +26,7 @@ object Form1: TForm1
   end
   object Gracz1Paletka: TImage
     Left = 1024
-    Top = 208
+    Top = 232
     Width = 25
     Height = 135
     Picture.Data = {
@@ -932,7 +934,7 @@ object Form1: TForm1
   end
   object Gracz2Paletka: TImage
     Left = 80
-    Top = 216
+    Top = 232
     Width = 25
     Height = 135
     Picture.Data = {
@@ -2209,6 +2211,7 @@ object Form1: TForm1
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       0000}
     Stretch = True
+    Transparent = True
     Visible = False
   end
   object Label9: TLabel
@@ -3259,9 +3262,37 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
+  object Label15: TLabel
+    Left = 152
+    Top = 72
+    Width = 7
+    Height = 13
+    Caption = 'X'
+  end
+  object Label16: TLabel
+    Left = 128
+    Top = 96
+    Width = 38
+    Height = 13
+    Caption = 'Label16'
+  end
+  object Label17: TLabel
+    Left = 272
+    Top = 80
+    Width = 7
+    Height = 13
+    Caption = 'Y'
+  end
+  object Label18: TLabel
+    Left = 264
+    Top = 104
+    Width = 38
+    Height = 13
+    Caption = 'Label18'
+  end
   object Panel1: TPanel
     Left = 424
-    Top = 120
+    Top = 144
     Width = 273
     Height = 377
     TabOrder = 0
@@ -3327,7 +3358,7 @@ object Form1: TForm1
   end
   object Panel2: TPanel
     Left = 424
-    Top = 120
+    Top = 144
     Width = 273
     Height = 377
     TabOrder = 1
@@ -3479,34 +3510,34 @@ object Form1: TForm1
     Visible = False
   end
   object Gracz1WGore: TTimer
-    Interval = 80
+    Interval = 20
     OnTimer = Gracz1WGoreTimer
     Left = 944
     Top = 24
   end
   object Gracz1WDol: TTimer
-    Interval = 80
+    Interval = 20
     OnTimer = Gracz1WDolTimer
     Left = 944
     Top = 56
   end
   object Gracz2WGore: TTimer
-    Interval = 80
+    Interval = 20
     OnTimer = Gracz2WGoreTimer
     Left = 56
     Top = 64
   end
   object Gracz2WDol: TTimer
-    Interval = 80
+    Interval = 20
     OnTimer = Gracz2WDolTimer
     Left = 56
     Top = 32
   end
   object TimerPileczka: TTimer
     Enabled = False
-    Interval = 50
+    Interval = 100
     OnTimer = TimerPileczkaTimer
-    Left = 448
-    Top = 40
+    Left = 456
+    Top = 16
   end
 end

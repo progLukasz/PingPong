@@ -50,6 +50,10 @@ __published:	// IDE-managed Components
         TImage *Przeszkoda1;
         TImage *Przeszkoda2;
         TImage *Przeszkoda3;
+        TLabel *Label15;
+        TLabel *Label16;
+        TLabel *Label17;
+        TLabel *Label18;
         void __fastcall Gracz1WGoreTimer(TObject *Sender);
         void __fastcall Gracz1WDolTimer(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,

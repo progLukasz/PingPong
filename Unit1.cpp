@@ -88,20 +88,20 @@ void dostosujPoziomTrudnosci(int poziomTrud)
                 {
                         Form1->Gracz1Paletka->Height = 135;
                         Form1->Gracz2Paletka->Height = 135;
-                        Form1->TimerPileczka->Interval = 3;
+                        Form1->TimerPileczka->Interval = 15;
                         break;
                 }
                 case 2:
                 {
                         Form1->Gracz1Paletka->Height = 110;
                         Form1->Gracz2Paletka->Height = 110;
-                        Form1->TimerPileczka->Interval = 2;
+                        Form1->TimerPileczka->Interval = 10;
                 }
                 case 3:
                 {
                         Form1->Gracz1Paletka->Height = 85;
                         Form1->Gracz2Paletka->Height = 85;
-                        Form1->TimerPileczka->Interval = 1;
+                        Form1->TimerPileczka->Interval = 5;
                 }
 
         }
@@ -140,7 +140,7 @@ void rozpocznijNowySet(TImage * pilka, TTimer * timerPilki, TShape * stol)
         Form1->TimerPileczka->Enabled = true;
         pilka->Left = stol->Width / 2;
         pilka->Top = stol->Height / 2;
-        x  = -2; y = -2;
+        x  = -5; y = -5;
         wlaczWylaczPilke(true);
 
 }
@@ -273,13 +273,32 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
 void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
       TShiftState Shift)
 {
-     if (Key == VK_UP)          Gracz1WGore->Enabled = false;
-     if (Key == VK_DOWN)        Gracz1WDol->Enabled = false;
-     if (graZKomputerem == false)
-     {
-        if (Key == 0x51)           Gracz2WGore->Enabled = false;
-        if (Key == 0x41)           Gracz2WDol->Enabled = false;
-     }
+        if (Key == VK_UP)
+        {
+                Gracz1WGore->Enabled = false;
+                gracz1ruchWGore = false;
+        }
+
+        if (Key == VK_DOWN)
+        {
+                Gracz1WDol->Enabled = false;
+                gracz1ruchWDol = false;
+        }
+
+        if (graZKomputerem == false)
+        {
+                if (Key == 0x51)
+                {
+                        Gracz2WGore->Enabled = false;
+                        gracz2ruchWGore = false;
+                }
+
+                if (Key == 0x41)
+                {
+                        Gracz2WDol->Enabled = false;
+                        gracz2ruchWDol = false;
+                }
+        }
 }
 //---------------------------------------------------------------------------
 
@@ -297,8 +316,11 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
         Pileczka->Top += y;
         if (Pileczka->Top >= Stol->Top) y = -y;
         if ((Pileczka->Top + Pileczka->Height) <=  (Stol->Top + Stol->Height)) y = -y;
+
         // skucha  gracza 1
-        if ((Pileczka->Left + Pileczka->Width) > (Gracz1Paletka->Left + 15))
+        if (((Pileczka->Left + Pileczka->Width) > Gracz1Paletka->Left + 20)
+                && (Pileczka->Top > Gracz1Paletka->Top + Gracz1Paletka->Height
+                || Pileczka->Top + Pileczka->Height < Gracz1Paletka->Top))
         {
                 wlaczWylaczPilke(false);
                 wlaczWylaczGracza1(false);
@@ -313,7 +335,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 }
         }
         // skucha gracza 2
-        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 15))
+        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 20))
         {
                 wlaczWylaczPilke(false);
                 wlaczWylaczGracza1(false);
@@ -327,6 +349,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 	                rozpocznijNowySet(Pileczka, TimerPileczka, Stol);
                 }
         }
+
         // odbicie od paletek
         if ((Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
                 && Pileczka->Top + Pileczka->Height/2 < Gracz2Paletka->Top + Gracz2Paletka->Height
@@ -335,25 +358,21 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
                 && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left))
         {
-                if (!(x > -4 && x < 4))
-                {
-                        if (gracz1ruchWGore || gracz2ruchWGore)
+                x = -x;
+
+                        if ((gracz1ruchWGore && (Pileczka->Left > Stol->Width/2)) || (gracz2ruchWGore && (Pileczka->Left < Stol->Width/2)))
                         {
-                                if (y > 0)
-                                        x = -1.2 * x;
-                                else
-                                        x = -0.8 * x;
+                                        y = (y - 1);
+
                         }
-                        else if (gracz1ruchWDol || gracz2ruchWDol)
+                        else if ((gracz1ruchWDol && (Pileczka->Left > Stol->Width/2)) || (gracz2ruchWDol && (Pileczka->Left < Stol->Width/2)))
                         {
-                                if (y > 0)
-                                        x = -0.8 * x;
-                                else
-                                        x = -1.2 * x;
+                                        y = (y + 1);
                         }
-                        else
-                                x = -x;
-                }
+                       // else
+                       //         y = y;
+
+
                 if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
         }
         // odbicie od przeszkod
