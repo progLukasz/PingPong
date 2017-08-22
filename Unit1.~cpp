@@ -2,6 +2,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
+#include "mmsystem.h"
 
 #include "Unit1.h"
 //---------------------------------------------------------------------------
@@ -14,7 +15,7 @@ int gracz1pkt = 0, gracz2pkt = 0;
 int poziomTrudnosci = 1;
 bool dzwiek = true;
 bool graZKomputerem;
-int pktDoZdobycia = 1;
+int pktDoZdobycia = 5;
 bool rozgrywkaRozpoczeta = false;
 bool przeszkodyAktywne = false;
 bool gracz1ruchWGore = false;
@@ -172,7 +173,9 @@ void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
                 || (x < 0 && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz
                 && pilkaLewaKrawedz >= (przeszkodaPrawaKrawedz - 9))))
         {
+                sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 x = -x;
+
         }
           if ((pilkaSrodekPoziomo >= przeszkodaLewaKrawedz
                 && pilkaSrodekPoziomo <= przeszkodaPrawaKrawedz)
@@ -181,6 +184,7 @@ void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
                 || (y < 0 && pilkaGornaKrawedz <= przeszkodaDolnaKrawedz
                 && pilkaGornaKrawedz >= (przeszkodaDolnaKrawedz - 9))))
                 {
+                sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 y = -y;
                 }
 }
@@ -318,7 +322,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
         if ((Pileczka->Top + Pileczka->Height) <=  (Stol->Top + Stol->Height)) y = -y;
 
         // skucha  gracza 1
-        if (((Pileczka->Left + Pileczka->Width) > Gracz1Paletka->Left + 20)
+        if (((Pileczka->Left + Pileczka->Width) > Gracz1Paletka->Left + 5)
                 && (Pileczka->Top > Gracz1Paletka->Top + Gracz1Paletka->Height
                 || Pileczka->Top + Pileczka->Height < Gracz1Paletka->Top))
         {
@@ -328,6 +332,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 Form1->Label9->Caption = ++gracz2pkt;
                 if (gracz2pkt < pktDoZdobycia)
                 {
+                sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 2. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
@@ -335,7 +340,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 }
         }
         // skucha gracza 2
-        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 20))
+        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 5))
         {
                 wlaczWylaczPilke(false);
                 wlaczWylaczGracza1(false);
@@ -343,6 +348,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 Form1->Label10->Caption = ++gracz1pkt;
                 if (gracz1pkt < pktDoZdobycia)
                 {
+                sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 1. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
@@ -374,6 +380,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 
 
                 if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
+                sndPlaySound("Dzwiek/pong.wav", SND_ASYNC);
         }
         // odbicie od przeszkod
         if (przeszkodyAktywne)
@@ -388,6 +395,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 wlaczWylaczGracza1(false);
                 wlaczWylaczGracza2(false);
                 wlaczWylaczPilke(false);
+                sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 1");
                 Form1->Panel1->Visible = true;
         }
@@ -400,7 +408,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 2");
                 Form1->Panel1->Visible = true;
         }
-
+        Form1->Label16->Caption = y;
 }
 //---------------------------------------------------------------------------
 

@@ -25,9 +25,9 @@ object Form1: TForm1
     Height = 504
   end
   object Gracz1Paletka: TImage
-    Left = 1024
+    Left = 1032
     Top = 232
-    Width = 25
+    Width = 10
     Height = 135
     Picture.Data = {
       07544269746D61704E700000424D4E7000000000000036000000280000002D00
@@ -935,7 +935,7 @@ object Form1: TForm1
   object Gracz2Paletka: TImage
     Left = 80
     Top = 232
-    Width = 25
+    Width = 10
     Height = 135
     Picture.Data = {
       07544269746D617026740000424D267400000000000036000000280000002E00
