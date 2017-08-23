@@ -14,7 +14,7 @@ int x = -1, y = -1;
 int gracz1pkt = 0, gracz2pkt = 0;
 int poziomTrudnosci = 1;
 bool dzwiek = true;
-bool graZKomputerem;
+bool graZKomputerem = 0;
 int pktDoZdobycia = 5;
 bool rozgrywkaRozpoczeta = false;
 bool przeszkodyAktywne = false;
@@ -90,6 +90,12 @@ void dostosujPoziomTrudnosci(int poziomTrud)
                         Form1->Gracz1Paletka->Height = 135;
                         Form1->Gracz2Paletka->Height = 135;
                         Form1->TimerPileczka->Interval = 15;
+                        Form1->Przeszkoda1->Height = 40;
+                        Form1->Przeszkoda1->Top = 134;
+                        Form1->Przeszkoda2->Height = 40;
+                        Form1->Przeszkoda2->Top = 280;
+                        Form1->Przeszkoda3->Height = 40;
+                        Form1->Przeszkoda3->Top = 426;
                         break;
                 }
                 case 2:
@@ -97,12 +103,25 @@ void dostosujPoziomTrudnosci(int poziomTrud)
                         Form1->Gracz1Paletka->Height = 110;
                         Form1->Gracz2Paletka->Height = 110;
                         Form1->TimerPileczka->Interval = 10;
+                        Form1->Przeszkoda1->Height = 60;
+                        Form1->Przeszkoda1->Top = 124;
+                        Form1->Przeszkoda2->Height = 60;
+                        Form1->Przeszkoda2->Top = 270;
+                        Form1->Przeszkoda3->Height = 60;
+                        Form1->Przeszkoda3->Top = 416;
+                        break;
                 }
                 case 3:
                 {
                         Form1->Gracz1Paletka->Height = 85;
                         Form1->Gracz2Paletka->Height = 85;
                         Form1->TimerPileczka->Interval = 5;
+                        Form1->Przeszkoda1->Height = 80;
+                        Form1->Przeszkoda1->Top = 114;
+                        Form1->Przeszkoda2->Height = 80;
+                        Form1->Przeszkoda2->Top = 260;
+                        Form1->Przeszkoda3->Height = 80;
+                        Form1->Przeszkoda3->Top = 406;
                 }
 
         }
@@ -159,34 +178,31 @@ void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
         int pilkaPrawaKrawedz = pilka->Left + pilka->Width;
         int pilkaGornaKrawedz = pilka->Top;
         int pilkaDolnaKrawedz = pilka->Top + pilka->Height;
-        int pilkaSrodekPionowo = pilka->Top + pilka->Height/2;
-        int pilkaSrodekPoziomo = pilka->Left + pilka->Width/2;
         int przeszkodaLewaKrawedz = przeszkoda->Left;
         int przeszkodaPrawaKrawedz = przeszkoda->Left + przeszkoda->Width;
         int przeszkodaGornaKrawedz = przeszkoda->Top;
         int przeszkodaDolnaKrawedz = przeszkoda->Top + przeszkoda->Height;
 
-        if ((pilkaSrodekPionowo >= przeszkodaGornaKrawedz
-                && pilkaSrodekPionowo <= przeszkodaDolnaKrawedz)
+        if ((pilkaDolnaKrawedz >= przeszkodaGornaKrawedz
+                && pilkaDolnaKrawedz <= przeszkodaDolnaKrawedz)
                 && ((x > 0 && pilkaPrawaKrawedz >= przeszkodaLewaKrawedz
                 &&  pilkaPrawaKrawedz <= (przeszkodaLewaKrawedz + 9))
                 || (x < 0 && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz
                 && pilkaLewaKrawedz >= (przeszkodaPrawaKrawedz - 9))))
         {
-                sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
+                if (dzwiek)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 x = -x;
-
         }
-          if ((pilkaSrodekPoziomo >= przeszkodaLewaKrawedz
-                && pilkaSrodekPoziomo <= przeszkodaPrawaKrawedz)
+          if ((pilkaPrawaKrawedz >= przeszkodaLewaKrawedz
+                && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz)
                 && ((y > 0 && pilkaDolnaKrawedz >= przeszkodaGornaKrawedz
                 && pilkaDolnaKrawedz <= (przeszkodaGornaKrawedz + 9))
                 || (y < 0 && pilkaGornaKrawedz <= przeszkodaDolnaKrawedz
                 && pilkaGornaKrawedz >= (przeszkodaDolnaKrawedz - 9))))
-                {
-                sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
+          {
+                if (dzwiek)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 y = -y;
-                }
+          }
 }
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -332,7 +348,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 Form1->Label9->Caption = ++gracz2pkt;
                 if (gracz2pkt < pktDoZdobycia)
                 {
-                sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
+                if (dzwiek)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 2. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
@@ -348,7 +364,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 Form1->Label10->Caption = ++gracz1pkt;
                 if (gracz1pkt < pktDoZdobycia)
                 {
-                sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
+                if (dzwiek)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 1. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
@@ -380,7 +396,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 
 
                 if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
-                sndPlaySound("Dzwiek/pong.wav", SND_ASYNC);
+                if (dzwiek)     sndPlaySound("Dzwiek/pong.wav", SND_ASYNC);
         }
         // odbicie od przeszkod
         if (przeszkodyAktywne)
@@ -395,7 +411,7 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 wlaczWylaczGracza1(false);
                 wlaczWylaczGracza2(false);
                 wlaczWylaczPilke(false);
-                sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
+                if (dzwiek)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 1");
                 Form1->Panel1->Visible = true;
         }
@@ -405,10 +421,10 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                 wlaczWylaczGracza1(false);
                 wlaczWylaczGracza2(false);
                 wlaczWylaczPilke(false);
+                if (dzwiek)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 2");
                 Form1->Panel1->Visible = true;
         }
-        Form1->Label16->Caption = y;
 }
 //---------------------------------------------------------------------------
 
@@ -458,8 +474,11 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
         case 3: Label4->Caption = "Trudny"; break;
         }
 
-        if (dzwiek == true) Label6->Caption = "Wylaczone";
-        else Label6->Caption = "Wlaczone";
+        if (dzwiek == true) Label6->Caption = "Wlaczone";
+        else Label6->Caption = "Wylaczone";
+
+        if (graZKomputerem == true) Label18->Caption = "Gracz vs Komputer";
+        else Label18->Caption = "Gracz vs Gracz";
 
         Label8->Caption = pktDoZdobycia;
         Panel2->Visible = true;
@@ -474,6 +493,7 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
 void __fastcall TForm1::Button5Click(TObject *Sender)
 {
         Panel2->Visible = false;
+        Panel5->Visible = false;
         Panel1->Visible = true;        
 }
 //---------------------------------------------------------------------------
@@ -489,19 +509,9 @@ void __fastcall TForm1::Button4Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button2Click(TObject *Sender)
-{
-        graZKomputerem = false;
-        Form1->Gracz2Paletka->Visible = true;
-        rozpocznijNowaPartie(Pileczka, TimerPileczka, Stol);
-        rozgrywkaRozpoczeta = true;
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-        graZKomputerem = true;
-        wlaczWylaczGracza2 (true);
+        wlaczWylaczGracza2(graZKomputerem);
         rozpocznijNowaPartie(Pileczka, TimerPileczka, Stol);
         rozgrywkaRozpoczeta = true;
 }
@@ -509,10 +519,9 @@ void __fastcall TForm1::Button1Click(TObject *Sender)
 
 void __fastcall TForm1::Button6Click(TObject *Sender)
 {
-                Form1->TimerPileczka->Enabled = true;
-                if (graZKomputerem)     wlaczWylaczGracza2(true);
-                Form1->Gracz1Paletka->Visible = true;
                 wlaczWylaczPilke(true);
+                wlaczWylaczGracza2(graZKomputerem);
+                Form1->Gracz1Paletka->Visible = true;
                 Form1->Panel1->Visible = false;
 }
 //---------------------------------------------------------------------------
@@ -530,6 +539,52 @@ void __fastcall TForm1::Label14Click(TObject *Sender)
         {
                 przeszkodyAktywne = true;
                 Label14->Caption = "Wlaczone";
+        }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Label18Click(TObject *Sender)
+{
+       if (graZKomputerem)
+        {
+                graZKomputerem = false;
+                Label18->Caption = "Gracz vs Gracz";
+        }
+        else
+        {
+                graZKomputerem = true;
+                Label18->Caption = "Gracz vs Komputer";
+        }
+}
+//---------------------------------------------------------------------------
+
+
+
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+        Form1->Panel1->Visible = false;
+        Form1->Panel4->Visible = true;        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button7Click(TObject *Sender)
+{
+        Form1->Panel1->Visible = true;
+        Form1->Panel4->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button8Click(TObject *Sender)
+{
+        if (Form1->Panel5->Visible)
+        {
+                Form1->Panel5->Visible = false;
+                Form1->Button8->Caption = "<-- Pomoc";
+        }
+        else
+        {
+                Form1->Panel5->Visible = true;
+                Form1->Button8->Caption = "--> Pomoc";
         }
 }
 //---------------------------------------------------------------------------

@@ -26,7 +26,6 @@ __published:	// IDE-managed Components
         TPanel *Panel1;
         TLabel *Label1;
         TButton *Button1;
-        TButton *Button2;
         TButton *Button3;
         TButton *Button4;
         TPanel *Panel2;
@@ -50,10 +49,15 @@ __published:	// IDE-managed Components
         TImage *Przeszkoda1;
         TImage *Przeszkoda2;
         TImage *Przeszkoda3;
-        TLabel *Label15;
-        TLabel *Label16;
         TLabel *Label17;
         TLabel *Label18;
+        TButton *Button2;
+        TPanel *Panel4;
+        TMemo *Memo1;
+        TButton *Button7;
+        TPanel *Panel5;
+        TMemo *Memo2;
+        TButton *Button8;
         void __fastcall Gracz1WGoreTimer(TObject *Sender);
         void __fastcall Gracz1WDolTimer(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
@@ -70,10 +74,13 @@ __published:	// IDE-managed Components
         void __fastcall Button3Click(TObject *Sender);
         void __fastcall Button5Click(TObject *Sender);
         void __fastcall Button4Click(TObject *Sender);
-        void __fastcall Button2Click(TObject *Sender);
         void __fastcall Button1Click(TObject *Sender);
         void __fastcall Button6Click(TObject *Sender);
         void __fastcall Label14Click(TObject *Sender);
+        void __fastcall Label18Click(TObject *Sender);
+        void __fastcall Button2Click(TObject *Sender);
+        void __fastcall Button7Click(TObject *Sender);
+        void __fastcall Button8Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TForm1(TComponent* Owner);

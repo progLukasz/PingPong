@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 415
-  Top = 53
+  Left = 473
+  Top = 129
   Width = 1135
   Height = 627
   Caption = 'Form1'
@@ -2215,7 +2215,7 @@ object Form1: TForm1
     Visible = False
   end
   object Label9: TLabel
-    Left = 510
+    Left = 512
     Top = 8
     Width = 20
     Height = 37
@@ -3262,34 +3262,6 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Label15: TLabel
-    Left = 152
-    Top = 72
-    Width = 7
-    Height = 13
-    Caption = 'X'
-  end
-  object Label16: TLabel
-    Left = 128
-    Top = 96
-    Width = 38
-    Height = 13
-    Caption = 'Label16'
-  end
-  object Label17: TLabel
-    Left = 272
-    Top = 80
-    Width = 7
-    Height = 13
-    Caption = 'Y'
-  end
-  object Label18: TLabel
-    Left = 264
-    Top = 104
-    Width = 38
-    Height = 13
-    Caption = 'Label18'
-  end
   object Panel1: TPanel
     Left = 424
     Top = 144
@@ -3314,26 +3286,17 @@ object Form1: TForm1
       Top = 144
       Width = 169
       Height = 41
-      Caption = 'Rozpocznij gre dla jednej osoby'
+      Caption = 'Rozpocznij gre'
       TabOrder = 0
       OnClick = Button1Click
     end
-    object Button2: TButton
+    object Button3: TButton
       Left = 56
       Top = 200
       Width = 169
       Height = 41
-      Caption = 'Rozpocznij gre dla dwoch osob'
-      TabOrder = 1
-      OnClick = Button2Click
-    end
-    object Button3: TButton
-      Left = 56
-      Top = 256
-      Width = 169
-      Height = 41
       Caption = 'Opcje'
-      TabOrder = 2
+      TabOrder = 1
       OnClick = Button3Click
     end
     object Button4: TButton
@@ -3342,7 +3305,7 @@ object Form1: TForm1
       Width = 169
       Height = 41
       Caption = 'Wyjscie'
-      TabOrder = 3
+      TabOrder = 2
       OnClick = Button4Click
     end
     object Button6: TButton
@@ -3351,9 +3314,18 @@ object Form1: TForm1
       Width = 169
       Height = 41
       Caption = 'Wznow gre'
-      TabOrder = 4
+      TabOrder = 3
       Visible = False
       OnClick = Button6Click
+    end
+    object Button2: TButton
+      Left = 56
+      Top = 256
+      Width = 169
+      Height = 41
+      Caption = 'Opis rozgrywki'
+      TabOrder = 4
+      OnClick = Button2Click
     end
   end
   object Panel2: TPanel
@@ -3378,7 +3350,7 @@ object Form1: TForm1
     end
     object Label3: TLabel
       Left = 24
-      Top = 72
+      Top = 128
       Width = 105
       Height = 16
       Caption = 'Poziom trudnosci:'
@@ -3390,8 +3362,8 @@ object Form1: TForm1
       ParentFont = False
     end
     object Label4: TLabel
-      Left = 144
-      Top = 96
+      Left = 136
+      Top = 144
       Width = 40
       Height = 16
       Caption = 'Latwy'
@@ -3405,7 +3377,7 @@ object Form1: TForm1
     end
     object Label5: TLabel
       Left = 24
-      Top = 128
+      Top = 216
       Width = 109
       Height = 16
       Caption = 'Efekty dzwiekowe:'
@@ -3417,8 +3389,8 @@ object Form1: TForm1
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 144
-      Top = 152
+      Left = 136
+      Top = 232
       Width = 69
       Height = 16
       Caption = 'Wlaczone'
@@ -3432,7 +3404,7 @@ object Form1: TForm1
     end
     object Label7: TLabel
       Left = 24
-      Top = 184
+      Top = 168
       Width = 172
       Height = 16
       Caption = 'Ilosc punktow do zwyciestwa:'
@@ -3445,7 +3417,7 @@ object Form1: TForm1
     end
     object Label8: TLabel
       Left = 136
-      Top = 216
+      Top = 192
       Width = 48
       Height = 16
       Caption = 'Label8'
@@ -3459,7 +3431,7 @@ object Form1: TForm1
     end
     object Label13: TLabel
       Left = 24
-      Top = 249
+      Top = 257
       Width = 73
       Height = 16
       Caption = 'Przeszkody:'
@@ -3484,6 +3456,33 @@ object Form1: TForm1
       ParentFont = False
       OnClick = Label14Click
     end
+    object Label17: TLabel
+      Left = 24
+      Top = 88
+      Width = 105
+      Height = 16
+      Caption = 'Rodzaj rozgrywki:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label18: TLabel
+      Left = 136
+      Top = 104
+      Width = 105
+      Height = 16
+      Caption = 'Gracz vs Gracz'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      OnClick = Label18Click
+    end
     object Button5: TButton
       Left = 176
       Top = 328
@@ -3492,6 +3491,15 @@ object Form1: TForm1
       Caption = 'Powrot'
       TabOrder = 0
       OnClick = Button5Click
+    end
+    object Button8: TButton
+      Left = 16
+      Top = 328
+      Width = 97
+      Height = 33
+      Caption = '<-- Pomoc '
+      TabOrder = 1
+      OnClick = Button8Click
     end
   end
   object Panel3: TPanel
@@ -3508,6 +3516,101 @@ object Form1: TForm1
     ParentFont = False
     TabOrder = 2
     Visible = False
+  end
+  object Panel4: TPanel
+    Left = 320
+    Top = 160
+    Width = 481
+    Height = 313
+    TabOrder = 3
+    Visible = False
+    object Memo1: TMemo
+      Left = 16
+      Top = 16
+      Width = 449
+      Height = 241
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      Lines.Strings = (
+        
+          'Witaj w grze Ping Pong. Jest to klasyczna gra zrecznosciowa pole' +
+          'gajaca '
+        
+          'na odbiciu zaserwowanej w kierunku gracza pileczki. W grze wprow' +
+          'adzono '
+        
+          'kilka poziomow trudnosci oraz umozliwiono ropoczecie rozgrywki d' +
+          'la '
+        
+          'jednej osoby (przeciwko graczu do gry wkracza stworzona na potrz' +
+          'eby '
+        
+          'rozgrywki sztuczna inteligencja). W miare uplywu rozgrywki, pilk' +
+          'a '
+        
+          'przyspiesza. Pilka zmienia swoj kat lotu jesli odbicie nastepuje' +
+          ' w trakcie '
+        'ruchu paletki.'
+        ''
+        'Sterowanie:'
+        'Gracz 1 - zielona paletka:'
+        '                       strzalka w gore - ruch w gore'
+        '                       strzalka w dol - ruch w dol'
+        'Gracz 2 - czerwona paletka:'
+        '                      klawisz '#39'q'#39' - ruch w gore'
+        '                      klawisz '#39'a'#39' - ruch w dol')
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 0
+    end
+    object Button7: TButton
+      Left = 328
+      Top = 272
+      Width = 137
+      Height = 33
+      Caption = 'Powrot'
+      TabOrder = 1
+      OnClick = Button7Click
+    end
+  end
+  object Panel5: TPanel
+    Left = 176
+    Top = 144
+    Width = 249
+    Height = 377
+    TabOrder = 4
+    Visible = False
+    object Memo2: TMemo
+      Left = 8
+      Top = 8
+      Width = 233
+      Height = 361
+      Lines.Strings = (
+        '                                  POMOC'
+        ''
+        'Rodzaj rozgrywki:'
+        '   Wybor pmiedzy rozgrywka dla jednej i dwoch '
+        'osob.'
+        ''
+        'Poziom trudnosci:'
+        '   Poziom trudnosci zmienia takie parametry jak '
+        'szerokosc paletki, predkosc pilki czy poziom '
+        'reakcji gracza komputerowego.'
+        ''
+        'Ilosc punktow do zwyciestwa:'
+        'Ustala ile punktow nalezy zdobyc aby wygrac '
+        'rozgrywke.'
+        ''
+        'Efekty dzwiekowe:'
+        'Wlacza i wylacza efekty dziwiekowe.'
+        ''
+        'Przeszkody:'
+        'Wlacza i wylacza przeszkody na planszy.')
+      TabOrder = 0
+    end
   end
   object Gracz1WGore: TTimer
     Interval = 20
