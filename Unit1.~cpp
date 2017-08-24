@@ -126,21 +126,24 @@ void dostosujPoziomTrudnosci(int poziomTrud)
 
         }
 }
+
 void grajJakoKomputer (TImage * paletka, TImage * pilka, int trudnosc)
 {
-                if (pilka->Left < Form1->Stol->Width/3*trudnosc)
+                if (pilka->Left < Form1->Stol->Width/3)
                 {
                         gracz2ruchWGore = false;
                         gracz2ruchWDol = false;
-                        if (paletka->Top > pilka->Top)
                         {
-                                paletka->Top -= 10;
-                                gracz2ruchWGore = true;
-                        }
-                        else if ((paletka->Top + paletka->Height) < (pilka->Top + pilka->Height))
-                        {
-                                paletka->Top +=10;
-                                gracz2ruchWDol = true;
+                                if (paletka->Top > pilka->Top)
+                                {
+                                        paletka->Top -= 5 * trudnosc;
+                                        gracz2ruchWGore = true;
+                                }
+                                else if ((paletka->Top + paletka->Height) < (pilka->Top + pilka->Height))
+                                {
+                                        paletka->Top += 5 * trudnosc;
+                                        gracz2ruchWDol = true;
+                                }
                         }
                 }
 }
@@ -213,37 +216,43 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Gracz1WGoreTimer(TObject *Sender)
 {
-        if (Gracz1Paletka->Top > 0) Gracz1Paletka->Top -=10;
+        if (Gracz1Paletka->Top > Stol->Top)     Gracz1Paletka->Top -=10;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Gracz1WDolTimer(TObject *Sender)
 {
-     if ((Gracz1Paletka->Top) < Stol->Height -  Gracz1Paletka->Height/2) Gracz1Paletka->Top += 10;
+     if (Gracz1Paletka->Top + Gracz1Paletka->Height < (Stol->Top + Stol->Height - 10)) Gracz1Paletka->Top += 10;
 }
 
 void __fastcall TForm1::Gracz2WGoreTimer(TObject *Sender)
 {
-        if (graZKomputerem == false)
+        if (Gracz2Paletka->Top > Stol->Top)
         {
-                if (Gracz2Paletka->Top > 0) Gracz2Paletka->Top -=10;
-        }
-        else
-        {
-                grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                if (graZKomputerem == false)
+                {
+                        Gracz2Paletka->Top -=10;
+                }
+                else
+                {
+                        grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                }
         }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Gracz2WDolTimer(TObject *Sender)
 {
-        if (graZKomputerem == false)
+        if (Gracz2Paletka->Top + Gracz2Paletka->Height < (Stol->Top + Stol->Height - 10))
         {
-                if ((Gracz2Paletka->Top) < Stol->Height -  Gracz2Paletka->Height/2) Gracz2Paletka->Top += 10;
-        }
-        else
-        {
-                grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                if (graZKomputerem == false)
+                {
+                        Gracz2Paletka->Top += 10;
+                }
+                else
+                {
+                        grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                }
         }
 }
 //---------------------------------------------------------------------------
@@ -373,10 +382,10 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
         }
 
         // odbicie od paletek
-        if ((Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
+        if ((x < 0 &&Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
                 && Pileczka->Top + Pileczka->Height/2 < Gracz2Paletka->Top + Gracz2Paletka->Height
                 && Pileczka->Left <= Gracz2Paletka->Left + Gracz2Paletka->Width)
-                || (Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
+                || (x > 0 && Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
                 && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
                 && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left))
         {

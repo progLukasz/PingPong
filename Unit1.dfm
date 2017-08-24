@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 473
-  Top = 129
+  Left = 386
+  Top = 108
   Width = 1135
   Height = 627
   Caption = 'Form1'
@@ -3531,29 +3531,27 @@ object Form1: TForm1
       Height = 241
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -13
+      Font.Height = -11
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       Lines.Strings = (
         
           'Witaj w grze Ping Pong. Jest to klasyczna gra zrecznosciowa pole' +
-          'gajaca '
+          'gajaca na odbiciu '
         
-          'na odbiciu zaserwowanej w kierunku gracza pileczki. W grze wprow' +
-          'adzono '
+          'zaserwowanej w kierunku gracza pileczki. W grze wprowadzono kilk' +
+          'a poziomow trudnosci '
         
-          'kilka poziomow trudnosci oraz umozliwiono ropoczecie rozgrywki d' +
-          'la '
+          'oraz umozliwiono ropoczecie rozgrywki dla jednej osoby (przeciwk' +
+          'o graczu do gry wkracza '
+        'stworzona na potrzeby rozgrywki sztuczna inteligencja).'
+        'W miare uplywu rozgrywki, pilka przyspiesza.'
         
-          'jednej osoby (przeciwko graczu do gry wkracza stworzona na potrz' +
-          'eby '
+          'Pilka zmienia swoj kat lotu jesli odbicie nastepuje w trakcie ru' +
+          'chu paletki.'
         
-          'rozgrywki sztuczna inteligencja). W miare uplywu rozgrywki, pilk' +
-          'a '
-        
-          'przyspiesza. Pilka zmienia swoj kat lotu jesli odbicie nastepuje' +
-          ' w trakcie '
-        'ruchu paletki.'
+          'Gra umozliwia rowniez wlaczenie przeszkod, ktore skutecznie utru' +
+          'dniaja rozgrywke.'
         ''
         'Sterowanie:'
         'Gracz 1 - zielona paletka:'
@@ -3590,6 +3588,10 @@ object Form1: TForm1
       Height = 361
       Lines.Strings = (
         '                                  POMOC'
+        ''
+        'Aby zmienic ktoras  opcji, kliknij na obecnym '
+        'ustawieniu.'
+        ''
         ''
         'Rodzaj rozgrywki:'
         '   Wybor pmiedzy rozgrywka dla jednej i dwoch '
