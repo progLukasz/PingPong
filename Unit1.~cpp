@@ -11,199 +11,210 @@
 #pragma resource "*.dfm"
 TForm1 *Form1;
 int x = -1, y = -1;
-int gracz1pkt = 0, gracz2pkt = 0;
-int poziomTrudnosci = 1;
-bool dzwiek = true;
-bool graZKomputerem = 0;
-int pktDoZdobycia = 5;
-bool rozgrywkaRozpoczeta = false;
-bool przeszkodyAktywne = false;
-bool gracz1ruchWGore = false;
-bool gracz1ruchWDol = false;
-bool gracz2ruchWGore = false;
-bool gracz2ruchWDol = false;
+int player1points = 0, player2points = 0;
+int difficultyLevel = 1;
+bool sound = true;
+bool gameWithCPU = 0;
+int pointsToWin = 5;
+bool gameStarted = false;
+bool obstaclesActive = false;
+bool player1MoveUp = false;
+bool player1MoveDown = false;
+bool player2MoveUp = false;
+bool player2MoveDown = false;
 
-void wlaczWylaczGracza1 (bool onOff)
+void switchPlayer1OnOff (bool onOff)
 {
         if (onOff)
         {
-        Form1->Gracz1WDol->Enabled = true;
-        Form1->Gracz1WGore->Enabled = true;
-        Form1->Gracz1Paletka->Visible = true;
+        Form1->Player1Down->Enabled = true;
+        Form1->Player1Up->Enabled = true;
+        Form1->Player1Racket->Visible = true;
         }
         else
         {
-        Form1->Gracz1WDol->Enabled = false;
-        Form1->Gracz1WGore->Enabled = false;
-        Form1->Gracz1Paletka->Visible = false;
+        Form1->Player1Down->Enabled = false;
+        Form1->Player1Up->Enabled = false;
+        Form1->Player1Racket->Visible = false;
         }
 }
-void wlaczWylaczGracza2 (bool onOff)
+void switchPlayer2OnOff (bool onOff)
 {
         if (onOff)
         {
-        Form1->Gracz2WDol->Enabled = true;
-        Form1->Gracz2WGore->Enabled = true;
-        Form1->Gracz2Paletka->Visible = true;
+        Form1->Player2Down->Enabled = true;
+        Form1->Player2Up->Enabled = true;
+        Form1->Player2Racket->Visible = true;
         }
         else
         {
-        Form1->Gracz2WDol->Enabled = false;
-        Form1->Gracz2WGore->Enabled = false;
-        Form1->Gracz2Paletka->Visible = false;
+        Form1->Player2Down->Enabled = false;
+        Form1->Player2Up->Enabled = false;
+        Form1->Player2Racket->Visible = false;
         }
 }
-void wlaczWylaczPilke(bool onOff)
+void switchBallOnOff(bool onOff)
 {
         if (onOff)
         {
-        Form1->TimerPileczka->Enabled = true;
-        Form1->Pileczka->Visible = true;
+        Form1->TimerBall->Enabled = true;
+        Form1->Ball->Visible = true;
         }
         else
         {
-        Form1->TimerPileczka->Enabled = false;
-        Form1->Pileczka->Visible = false;
+        Form1->TimerBall->Enabled = false;
+        Form1->Ball->Visible = false;
         }
 }
-void wlaczWylaczPrzeszkody(bool onOff)
+void switchObstaclesOnOff(bool onOff)
 {
         if (onOff)
         {
-                Form1->Przeszkoda1->Visible = true;
-                Form1->Przeszkoda2->Visible = true;
-                Form1->Przeszkoda3->Visible = true;
+                Form1->Obstacle1->Visible = true;
+                Form1->Obstacle2->Visible = true;
+                Form1->Obstacle3->Visible = true;
         }
         else
         {
-                Form1->Przeszkoda1->Visible = false;
-                Form1->Przeszkoda2->Visible = false;
-                Form1->Przeszkoda3->Visible = false;
+                Form1->Obstacle1->Visible = false;
+                Form1->Obstacle2->Visible = false;
+                Form1->Obstacle3->Visible = false;
         }
 }
-void dostosujPoziomTrudnosci(int poziomTrud)
+void adjustDifficultyLevel(int diffLevel)
 {
-        switch(poziomTrud)
+        switch(diffLevel)
         {
                 case 1:
                 {
-                        Form1->Gracz1Paletka->Height = 135;
-                        Form1->Gracz2Paletka->Height = 135;
-                        Form1->TimerPileczka->Interval = 15;
-                        Form1->Przeszkoda1->Height = 40;
-                        Form1->Przeszkoda1->Top = 134;
-                        Form1->Przeszkoda2->Height = 40;
-                        Form1->Przeszkoda2->Top = 280;
-                        Form1->Przeszkoda3->Height = 40;
-                        Form1->Przeszkoda3->Top = 426;
+                        Form1->Player1Racket->Height = 135;
+                        Form1->Player2Racket->Height = 135;
+                        Form1->TimerBall->Interval = 15;
+                        Form1->Obstacle1->Height = 40;
+                        Form1->Obstacle1->Top = 134;
+                        Form1->Obstacle2->Height = 40;
+                        Form1->Obstacle2->Top = 280;
+                        Form1->Obstacle3->Height = 40;
+                        Form1->Obstacle3->Top = 426;
                         break;
                 }
                 case 2:
                 {
-                        Form1->Gracz1Paletka->Height = 110;
-                        Form1->Gracz2Paletka->Height = 110;
-                        Form1->TimerPileczka->Interval = 10;
-                        Form1->Przeszkoda1->Height = 60;
-                        Form1->Przeszkoda1->Top = 124;
-                        Form1->Przeszkoda2->Height = 60;
-                        Form1->Przeszkoda2->Top = 270;
-                        Form1->Przeszkoda3->Height = 60;
-                        Form1->Przeszkoda3->Top = 416;
+                        Form1->Player1Racket->Height = 110;
+                        Form1->Player2Racket->Height = 110;
+                        Form1->TimerBall->Interval = 10;
+                        Form1->Obstacle1->Height = 60;
+                        Form1->Obstacle1->Top = 124;
+                        Form1->Obstacle2->Height = 60;
+                        Form1->Obstacle2->Top = 270;
+                        Form1->Obstacle3->Height = 60;
+                        Form1->Obstacle3->Top = 416;
                         break;
                 }
                 case 3:
                 {
-                        Form1->Gracz1Paletka->Height = 85;
-                        Form1->Gracz2Paletka->Height = 85;
-                        Form1->TimerPileczka->Interval = 5;
-                        Form1->Przeszkoda1->Height = 80;
-                        Form1->Przeszkoda1->Top = 114;
-                        Form1->Przeszkoda2->Height = 80;
-                        Form1->Przeszkoda2->Top = 260;
-                        Form1->Przeszkoda3->Height = 80;
-                        Form1->Przeszkoda3->Top = 406;
+                        Form1->Player1Racket->Height = 85;
+                        Form1->Player2Racket->Height = 85;
+                        Form1->TimerBall->Interval = 5;
+                        Form1->Obstacle1->Height = 80;
+                        Form1->Obstacle1->Top = 114;
+                        Form1->Obstacle2->Height = 80;
+                        Form1->Obstacle2->Top = 260;
+                        Form1->Obstacle3->Height = 80;
+                        Form1->Obstacle3->Top = 406;
                 }
 
         }
 }
 
-void grajJakoKomputer (TImage * paletka, TImage * pilka, int trudnosc)
+void playWithCPU (TImage * racket, TImage * ball, int difficulty)
 {
-                if (pilka->Left < Form1->Stol->Width/3)
+                if (ball->Left < Form1->Table->Width/3)
                 {
-                        gracz2ruchWGore = false;
-                        gracz2ruchWDol = false;
+                        player2MoveUp = false;
+                        player2MoveDown = false;
                         {
-                                if (paletka->Top > pilka->Top)
+                                if (racket->Top > ball->Top)
                                 {
-                                        paletka->Top -= 5 * trudnosc;
-                                        gracz2ruchWGore = true;
+                                        racket->Top -= 5 * difficulty;
+                                        player2MoveUp = true;
                                 }
-                                else if ((paletka->Top + paletka->Height) < (pilka->Top + pilka->Height))
+                                else if ((racket->Top + racket->Height) < (ball->Top + ball->Height))
                                 {
-                                        paletka->Top += 5 * trudnosc;
-                                        gracz2ruchWDol = true;
+                                        racket->Top += 5 * difficulty;
+                                        player2MoveDown = true;
                                 }
                         }
                 }
 }
-void rozpocznijNowySet(TImage * pilka, TTimer * timerPilki, TShape * stol)
+
+int drawMinusOrPlusValue ()
 {
+        int x = rand() % 100;
+        if ( x > 50)    return 1;
+        else            return -1;
+}
+void startNewSet(TImage * ball, TTimer * timerBall, TShape * table)
+{
+        int signX= rand() % 100;
+        int signY = rand() % 100;
         Form1->Panel1->Visible = false;
         Form1->Panel2->Visible = false;
         Form1->Panel3->Visible = true;
-        Form1->Gracz1Paletka->Visible = true;
-        if (!graZKomputerem)    Form1->Gracz2Paletka->Visible = true;
-        wlaczWylaczPrzeszkody(przeszkodyAktywne);
+        Form1->Player1Racket->Visible = true;
+        if (!gameWithCPU)    Form1->Player2Racket->Visible = true;
+        switchObstaclesOnOff(obstaclesActive);
         Application->ProcessMessages(); Sleep(2000);
-        Form1->Gracz1Paletka->Top = 216;
-        Form1->Gracz2Paletka->Top = 216;
+        Form1->Player1Racket->Top = 216;
+        Form1->Player2Racket->Top = 216;
         Form1->Panel3->Visible = false;
-        dostosujPoziomTrudnosci(poziomTrudnosci);
-        Form1->TimerPileczka->Enabled = true;
-        pilka->Left = stol->Width / 2;
-        pilka->Top = stol->Height / 2;
-        x  = -5; y = -5;
-        wlaczWylaczPilke(true);
+        adjustDifficultyLevel(difficultyLevel);
+        Form1->TimerBall->Enabled = true;
+        ball->Left = table->Width / 2;
+        ball->Top = table->Height / 2;
+
+        x = drawMinusOrPlusValue() * (rand() % 7 + 3);
+        y = drawMinusOrPlusValue() * (rand() % 7 + 3);
+        switchBallOnOff(true);
 
 }
-void rozpocznijNowaPartie(TImage * pilka, TTimer * timerPilki, TShape * stol)
+void startNewGame(TImage * ball, TTimer * timerBall, TShape * table)
 {
-        gracz1pkt = 0;
-        gracz2pkt = 0;
+        player1points = 0;
+        player2points = 0;
         Form1->Label9->Caption = 0;
         Form1->Label10->Caption = 0;
-        rozpocznijNowySet(pilka, timerPilki, stol);
+        startNewSet(ball, timerBall, table);
 }
-void odbijOdPrzeszkody(TImage * pilka, TImage * przeszkoda)
+void bounceFromObstacle(TImage * ball, TImage * obstacle)
 {
-        int pilkaLewaKrawedz = pilka->Left;
-        int pilkaPrawaKrawedz = pilka->Left + pilka->Width;
-        int pilkaGornaKrawedz = pilka->Top;
-        int pilkaDolnaKrawedz = pilka->Top + pilka->Height;
-        int przeszkodaLewaKrawedz = przeszkoda->Left;
-        int przeszkodaPrawaKrawedz = przeszkoda->Left + przeszkoda->Width;
-        int przeszkodaGornaKrawedz = przeszkoda->Top;
-        int przeszkodaDolnaKrawedz = przeszkoda->Top + przeszkoda->Height;
+        int ballLeftEdge= ball->Left;
+        int ballRightEdge = ball->Left + ball->Width;
+        int ballTopEdge = ball->Top;
+        int ballBottomEdge = ball->Top + ball->Height;
+        int obstacleLeftEdge = obstacle->Left;
+        int obstacleRightEdge = obstacle->Left + obstacle->Width;
+        int obstacleTopEdge = obstacle->Top;
+        int obstacleBottomEdge = obstacle->Top + obstacle->Height;
 
-        if ((pilkaDolnaKrawedz >= przeszkodaGornaKrawedz
-                && pilkaDolnaKrawedz <= przeszkodaDolnaKrawedz)
-                && ((x > 0 && pilkaPrawaKrawedz >= przeszkodaLewaKrawedz
-                &&  pilkaPrawaKrawedz <= (przeszkodaLewaKrawedz + 9))
-                || (x < 0 && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz
-                && pilkaLewaKrawedz >= (przeszkodaPrawaKrawedz - 9))))
+        if ((ballBottomEdge >= obstacleTopEdge
+                && ballBottomEdge <= obstacleBottomEdge)
+                && ((x > 0 && ballRightEdge >= obstacleLeftEdge
+                &&  ballRightEdge <= (obstacleLeftEdge + 9))
+                || (x < 0 && ballLeftEdge<= obstacleRightEdge
+                && ballLeftEdge>= (obstacleRightEdge - 9))))
         {
-                if (dzwiek)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
+                if (sound)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 x = -x;
         }
-          if ((pilkaPrawaKrawedz >= przeszkodaLewaKrawedz
-                && pilkaLewaKrawedz <= przeszkodaPrawaKrawedz)
-                && ((y > 0 && pilkaDolnaKrawedz >= przeszkodaGornaKrawedz
-                && pilkaDolnaKrawedz <= (przeszkodaGornaKrawedz + 9))
-                || (y < 0 && pilkaGornaKrawedz <= przeszkodaDolnaKrawedz
-                && pilkaGornaKrawedz >= (przeszkodaDolnaKrawedz - 9))))
+          if ((ballRightEdge >= obstacleLeftEdge
+                && ballLeftEdge<= obstacleRightEdge)
+                && ((y > 0 && ballBottomEdge >= obstacleTopEdge
+                && ballBottomEdge <= (obstacleTopEdge + 9))
+                || (y < 0 && ballTopEdge <= obstacleBottomEdge
+                && ballTopEdge >= (obstacleBottomEdge - 9))))
           {
-                if (dzwiek)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
+                if (sound)     sndPlaySound("Dzwiek/PopPrzeszk.wav", SND_ASYNC);
                 y = -y;
           }
 }
@@ -214,44 +225,44 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 }
 
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Gracz1WGoreTimer(TObject *Sender)
+void __fastcall TForm1::Player1UpTimer(TObject *Sender)
 {
-        if (Gracz1Paletka->Top > Stol->Top)     Gracz1Paletka->Top -=10;
+        if (Player1Racket->Top > Table->Top)     Player1Racket->Top -=10;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Gracz1WDolTimer(TObject *Sender)
+void __fastcall TForm1::Player1DownTimer(TObject *Sender)
 {
-     if (Gracz1Paletka->Top + Gracz1Paletka->Height < (Stol->Top + Stol->Height - 10)) Gracz1Paletka->Top += 10;
+     if (Player1Racket->Top + Player1Racket->Height < (Table->Top + Table->Height - 10)) Player1Racket->Top += 10;
 }
 
-void __fastcall TForm1::Gracz2WGoreTimer(TObject *Sender)
+void __fastcall TForm1::Player2UpTimer(TObject *Sender)
 {
-        if (Gracz2Paletka->Top > Stol->Top)
+        if (Player2Racket->Top > Table->Top)
         {
-                if (graZKomputerem == false)
+                if (gameWithCPU== false)
                 {
-                        Gracz2Paletka->Top -=10;
+                        Player2Racket->Top -=10;
                 }
                 else
                 {
-                        grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                        playWithCPU (Player2Racket, Ball, difficultyLevel);
                 }
         }
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Gracz2WDolTimer(TObject *Sender)
+void __fastcall TForm1::Player2DownTimer(TObject *Sender)
 {
-        if (Gracz2Paletka->Top + Gracz2Paletka->Height < (Stol->Top + Stol->Height - 10))
+        if (Player2Racket->Top + Player2Racket->Height < (Table->Top + Table->Height - 10))
         {
-                if (graZKomputerem == false)
+                if (gameWithCPU== false)
                 {
-                        Gracz2Paletka->Top += 10;
+                        Player2Racket->Top += 10;
                 }
                 else
                 {
-                        grajJakoKomputer (Gracz2Paletka, Pileczka, poziomTrudnosci);
+                        playWithCPU (Player2Racket, Ball, difficultyLevel);
                 }
         }
 }
@@ -261,39 +272,39 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
 {
         if (Key == VK_ESCAPE)
         {
-                wlaczWylaczPilke(false);
-                wlaczWylaczGracza1(false);
-                wlaczWylaczGracza2(false);
+                switchBallOnOff(false);
+                switchPlayer1OnOff(false);
+                switchPlayer2OnOff(false);
                 Form1->Panel1->Visible = true;
                 Form1->Button6->Visible = true;
-                if (rozgrywkaRozpoczeta == true) Form1->Button6->Visible = true;
+                if (gameStarted == true) Form1->Button6->Visible = true;
                 else  Form1->Button6->Visible = false;
         }
         if (Key == VK_UP)
         {
-                Gracz1WGore->Enabled = true;
-                gracz1ruchWGore = true;
-                gracz1ruchWDol = false;
+                Player1Up->Enabled = true;
+                player1MoveUp= true;
+                player1MoveDown = false;
         }
         if (Key == VK_DOWN)
         {
-                Gracz1WDol->Enabled = true;
-                gracz1ruchWGore = false;
-                gracz1ruchWDol = true;
+                Player1Down->Enabled = true;
+                player1MoveUp= false;
+                player1MoveDown = true;
         }
-        if (graZKomputerem == false)
+        if (gameWithCPU== false)
         {
                 if (Key == 0x51)
                 {
-                        Gracz2WGore->Enabled = true;
-                        gracz2ruchWGore = true;
-                        gracz2ruchWDol = false;
+                        Player2Up->Enabled = true;
+                        player2MoveUp = true;
+                        player2MoveDown = false;
                 }
                 if (Key == 0x41)
                 {
-                        Gracz2WDol->Enabled = true;
-                        gracz2ruchWGore = false;
-                        gracz2ruchWDol = true;
+                        Player2Down->Enabled = true;
+                        player2MoveUp = false;
+                        player2MoveDown = true;
                 }
         }
 }
@@ -304,28 +315,28 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 {
         if (Key == VK_UP)
         {
-                Gracz1WGore->Enabled = false;
-                gracz1ruchWGore = false;
+                Player1Up->Enabled = false;
+                player1MoveUp= false;
         }
 
         if (Key == VK_DOWN)
         {
-                Gracz1WDol->Enabled = false;
-                gracz1ruchWDol = false;
+                Player1Down->Enabled = false;
+                player1MoveDown = false;
         }
 
-        if (graZKomputerem == false)
+        if (gameWithCPU== false)
         {
                 if (Key == 0x51)
                 {
-                        Gracz2WGore->Enabled = false;
-                        gracz2ruchWGore = false;
+                        Player2Up->Enabled = false;
+                        player2MoveUp = false;
                 }
 
                 if (Key == 0x41)
                 {
-                        Gracz2WDol->Enabled = false;
-                        gracz2ruchWDol = false;
+                        Player2Down->Enabled = false;
+                        player2MoveDown = false;
                 }
         }
 }
@@ -333,70 +344,70 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-        wlaczWylaczGracza1 (false);
-        wlaczWylaczGracza2 (false);
+        switchPlayer1OnOff (false);
+        switchPlayer2OnOff (false);
 
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
+void __fastcall TForm1::TimerBallTimer(TObject *Sender)
 {
-        Pileczka->Left += x;
-        Pileczka->Top += y;
-        if (Pileczka->Top >= Stol->Top) y = -y;
-        if ((Pileczka->Top + Pileczka->Height) <=  (Stol->Top + Stol->Height)) y = -y;
+        Ball->Left += x;
+        Ball->Top += y;
+        if (Ball->Top >= Table->Top) y = -y;
+        if ((Ball->Top + Ball->Height) <=  (Table->Top + Table->Height)) y = -y;
 
         // skucha  gracza 1
-        if (((Pileczka->Left + Pileczka->Width) > Gracz1Paletka->Left + 5)
-                && (Pileczka->Top > Gracz1Paletka->Top + Gracz1Paletka->Height
-                || Pileczka->Top + Pileczka->Height < Gracz1Paletka->Top))
+        if (((Ball->Left + Ball->Width) > Player1Racket->Left + 5)
+                && (Ball->Top > Player1Racket->Top + Player1Racket->Height
+                || Ball->Top + Ball->Height < Player1Racket->Top))
         {
-                wlaczWylaczPilke(false);
-                wlaczWylaczGracza1(false);
-                if (!graZKomputerem)    wlaczWylaczGracza2(false);
-                Form1->Label9->Caption = ++gracz2pkt;
-                if (gracz2pkt < pktDoZdobycia)
+                switchBallOnOff(false);
+                switchPlayer1OnOff(false);
+                if (!gameWithCPU)    switchPlayer2OnOff(false);
+                Form1->Label9->Caption = ++player2points;
+                if (player2points < pointsToWin)
                 {
-                if (dzwiek)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
+                if (sound)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 2. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
-	                rozpocznijNowySet(Pileczka, TimerPileczka, Stol);
+	                startNewSet(Ball, TimerBall, Table);
                 }
         }
         // skucha gracza 2
-        if (Pileczka->Left < (Gracz2Paletka->Left +  Gracz2Paletka->Width - 5))
+        if (Ball->Left < (Player2Racket->Left +  Player2Racket->Width - 5))
         {
-                wlaczWylaczPilke(false);
-                wlaczWylaczGracza1(false);
-                if (!graZKomputerem)    wlaczWylaczGracza2(false);
-                Form1->Label10->Caption = ++gracz1pkt;
-                if (gracz1pkt < pktDoZdobycia)
+                switchBallOnOff(false);
+                switchPlayer1OnOff(false);
+                if (!gameWithCPU)    switchPlayer2OnOff(false);
+                Form1->Label10->Caption = ++player1points;
+                if (player1points < pointsToWin)
                 {
-                if (dzwiek)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
+                if (sound)     sndPlaySound("Dzwiek/Headshot.wav", SND_ASYNC);
                 if( Application->MessageBox(
 			"Punkt dla gracza 1. Kliknij OK aby zaserwowac pilke ponownie.","" ,
 			MB_OK | MB_ICONQUESTION) == IDOK )
-	                rozpocznijNowySet(Pileczka, TimerPileczka, Stol);
+	                startNewSet(Ball, TimerBall, Table);
                 }
         }
 
         // odbicie od paletek
-        if ((x < 0 &&Pileczka->Top + Pileczka->Height/2 > Gracz2Paletka->Top
-                && Pileczka->Top + Pileczka->Height/2 < Gracz2Paletka->Top + Gracz2Paletka->Height
-                && Pileczka->Left <= Gracz2Paletka->Left + Gracz2Paletka->Width)
-                || (x > 0 && Pileczka->Top + Pileczka->Height/2  > Gracz1Paletka->Top
-                && Pileczka->Top + Pileczka->Height/2 < Gracz1Paletka->Top + Gracz1Paletka->Height
-                && Pileczka->Left + Pileczka->Width >= Gracz1Paletka->Left))
+        if ((x < 0 &&Ball->Top + Ball->Height/2 > Player2Racket->Top
+                && Ball->Top + Ball->Height/2 < Player2Racket->Top + Player2Racket->Height
+                && Ball->Left <= Player2Racket->Left + Player2Racket->Width)
+                || (x > 0 && Ball->Top + Ball->Height/2  > Player1Racket->Top
+                && Ball->Top + Ball->Height/2 < Player1Racket->Top + Player1Racket->Height
+                && Ball->Left + Ball->Width >= Player1Racket->Left))
         {
                 x = -x;
 
-                        if ((gracz1ruchWGore && (Pileczka->Left > Stol->Width/2)) || (gracz2ruchWGore && (Pileczka->Left < Stol->Width/2)))
+                        if ((player1MoveUp&& (Ball->Left > Table->Width/2)) || (player2MoveUp && (Ball->Left < Table->Width/2)))
                         {
                                         y = (y - 1);
 
                         }
-                        else if ((gracz1ruchWDol && (Pileczka->Left > Stol->Width/2)) || (gracz2ruchWDol && (Pileczka->Left < Stol->Width/2)))
+                        else if ((player1MoveDown && (Ball->Left > Table->Width/2)) || (player2MoveDown && (Ball->Left < Table->Width/2)))
                         {
                                         y = (y + 1);
                         }
@@ -404,33 +415,33 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
                        //         y = y;
 
 
-                if (Form1->TimerPileczka->Interval > 5)  Form1->TimerPileczka->Interval -= 1;
-                if (dzwiek)     sndPlaySound("Dzwiek/pong.wav", SND_ASYNC);
+                if (Form1->TimerBall->Interval > 5)  Form1->TimerBall->Interval -= 1;
+                if (sound)     sndPlaySound("Dzwiek/pong.wav", SND_ASYNC);
         }
         // odbicie od przeszkod
-        if (przeszkodyAktywne)
+        if (obstaclesActive)
         {
-                odbijOdPrzeszkody(Pileczka, Przeszkoda1);
-                odbijOdPrzeszkody(Pileczka, Przeszkoda2);
-                odbijOdPrzeszkody(Pileczka, Przeszkoda3);
+                bounceFromObstacle(Ball, Obstacle1);
+                bounceFromObstacle(Ball, Obstacle2);
+                bounceFromObstacle(Ball, Obstacle3);
         }
 
-        if (gracz1pkt >= pktDoZdobycia)
+        if (player1points >= pointsToWin)
         {
-                wlaczWylaczGracza1(false);
-                wlaczWylaczGracza2(false);
-                wlaczWylaczPilke(false);
-                if (dzwiek)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
+                switchPlayer1OnOff(false);
+                switchPlayer2OnOff(false);
+                switchBallOnOff(false);
+                if (sound)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 1");
                 Form1->Panel1->Visible = true;
         }
 
-        if (gracz2pkt >= pktDoZdobycia)
+        if (player2points >= pointsToWin)
         {
-                wlaczWylaczGracza1(false);
-                wlaczWylaczGracza2(false);
-                wlaczWylaczPilke(false);
-                if (dzwiek)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
+                switchPlayer1OnOff(false);
+                switchPlayer2OnOff(false);
+                switchBallOnOff(false);
+                if (sound)     sndPlaySound("Dzwiek/Clapping.wav", SND_ASYNC);
                 ShowMessage("Koniec rozgrywki. Wygrywa gracz 2");
                 Form1->Panel1->Visible = true;
         }
@@ -439,11 +450,11 @@ void __fastcall TForm1::TimerPileczkaTimer(TObject *Sender)
 
 void __fastcall TForm1::Label4Click(TObject *Sender)
 {
-        if (poziomTrudnosci == 1) poziomTrudnosci = 2;
-        else if (poziomTrudnosci == 2) poziomTrudnosci = 3;
-        else if (poziomTrudnosci == 3) poziomTrudnosci = 1;
+        if (difficultyLevel == 1) difficultyLevel = 2;
+        else if (difficultyLevel == 2) difficultyLevel = 3;
+        else if (difficultyLevel == 3) difficultyLevel = 1;
 
-        switch(poziomTrudnosci)
+        switch(difficultyLevel)
         {
         case 1: Label4->Caption = "Latwy";  break;
         case 2: Label4->Caption = "Sredni"; break;
@@ -454,14 +465,14 @@ void __fastcall TForm1::Label4Click(TObject *Sender)
 
 void __fastcall TForm1::Label6Click(TObject *Sender)
 {
-        if (dzwiek)
+        if (sound)
         {
-                dzwiek = false;
+                sound = false;
                 Label6->Caption = "Wylaczone";
         }
         else
         {
-                dzwiek = true;
+                sound = true;
                 Label6->Caption = "Wlaczone";
         }
 }
@@ -469,31 +480,31 @@ void __fastcall TForm1::Label6Click(TObject *Sender)
 
 void __fastcall TForm1::Label8Click(TObject *Sender)
 {
-        Label8->Caption = ++pktDoZdobycia;
-        if (pktDoZdobycia >= 20) pktDoZdobycia = 0;
+        Label8->Caption = ++pointsToWin;
+        if (pointsToWin >= 20) pointsToWin = 0;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Button3Click(TObject *Sender)
 {
-        switch(poziomTrudnosci)
+        switch(difficultyLevel)
         {
         case 1: Label4->Caption = "Latwy";  break;
         case 2: Label4->Caption = "Sredni"; break;
         case 3: Label4->Caption = "Trudny"; break;
         }
 
-        if (dzwiek == true) Label6->Caption = "Wlaczone";
+        if (sound == true) Label6->Caption = "Wlaczone";
         else Label6->Caption = "Wylaczone";
 
-        if (graZKomputerem == true) Label18->Caption = "Gracz vs Komputer";
+        if (gameWithCPU== true) Label18->Caption = "Gracz vs Komputer";
         else Label18->Caption = "Gracz vs Gracz";
 
-        Label8->Caption = pktDoZdobycia;
+        Label8->Caption = pointsToWin;
         Panel2->Visible = true;
         Panel1->Visible = false;
         Form1->Button6->Visible = false;
-        rozgrywkaRozpoczeta = false;
+        gameStarted = false;
 
 
 }
@@ -520,17 +531,17 @@ void __fastcall TForm1::Button4Click(TObject *Sender)
 
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-        wlaczWylaczGracza2(graZKomputerem);
-        rozpocznijNowaPartie(Pileczka, TimerPileczka, Stol);
-        rozgrywkaRozpoczeta = true;
+        switchPlayer2OnOff(gameWithCPU);
+        startNewGame(Ball, TimerBall, Table);
+        gameStarted = true;
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::Button6Click(TObject *Sender)
 {
-                wlaczWylaczPilke(true);
-                wlaczWylaczGracza2(graZKomputerem);
-                Form1->Gracz1Paletka->Visible = true;
+                switchBallOnOff(true);
+                switchPlayer2OnOff(gameWithCPU);
+                Form1->Player1Racket->Visible = true;
                 Form1->Panel1->Visible = false;
 }
 //---------------------------------------------------------------------------
@@ -539,14 +550,14 @@ void __fastcall TForm1::Button6Click(TObject *Sender)
 
 void __fastcall TForm1::Label14Click(TObject *Sender)
 {
-        if (przeszkodyAktywne)
+        if (obstaclesActive)
         {
-                przeszkodyAktywne = false;
+                obstaclesActive = false;
                 Label14->Caption = "Wylaczone";
         }
         else
         {
-                przeszkodyAktywne = true;
+                obstaclesActive = true;
                 Label14->Caption = "Wlaczone";
         }
 }
@@ -554,14 +565,14 @@ void __fastcall TForm1::Label14Click(TObject *Sender)
 
 void __fastcall TForm1::Label18Click(TObject *Sender)
 {
-       if (graZKomputerem)
+       if (gameWithCPU)
         {
-                graZKomputerem = false;
+                gameWithCPU= false;
                 Label18->Caption = "Gracz vs Gracz";
         }
         else
         {
-                graZKomputerem = true;
+                gameWithCPU= true;
                 Label18->Caption = "Gracz vs Komputer";
         }
 }

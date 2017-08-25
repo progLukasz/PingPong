@@ -18,13 +18,13 @@ object Form1: TForm1
   OnKeyUp = FormKeyUp
   PixelsPerInch = 96
   TextHeight = 13
-  object Stol: TShape
+  object Table: TShape
     Left = 48
     Top = 48
     Width = 1025
     Height = 504
   end
-  object Gracz1Paletka: TImage
+  object Player1Racket: TImage
     Left = 1032
     Top = 232
     Width = 10
@@ -932,7 +932,7 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Gracz2Paletka: TImage
+  object Player2Racket: TImage
     Left = 80
     Top = 232
     Width = 10
@@ -1871,7 +1871,7 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Pileczka: TImage
+  object Ball: TImage
     Left = 464
     Top = 224
     Width = 41
@@ -2281,7 +2281,7 @@ object Form1: TForm1
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Przeszkoda1: TImage
+  object Obstacle1: TImage
     Left = 544
     Top = 96
     Width = 33
@@ -2608,7 +2608,7 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Przeszkoda2: TImage
+  object Obstacle2: TImage
     Left = 544
     Top = 408
     Width = 33
@@ -2935,7 +2935,7 @@ object Form1: TForm1
     Stretch = True
     Visible = False
   end
-  object Przeszkoda3: TImage
+  object Obstacle3: TImage
     Left = 544
     Top = 248
     Width = 33
@@ -3273,7 +3273,7 @@ object Form1: TForm1
       Top = 32
       Width = 206
       Height = 27
-      Caption = 'PING PONG v1.0'
+      Caption = 'PING PONG v1.1'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -27
@@ -3329,8 +3329,8 @@ object Form1: TForm1
     end
   end
   object Panel2: TPanel
-    Left = 424
-    Top = 144
+    Left = 440
+    Top = 232
     Width = 273
     Height = 377
     TabOrder = 1
@@ -3614,34 +3614,34 @@ object Form1: TForm1
       TabOrder = 0
     end
   end
-  object Gracz1WGore: TTimer
+  object Player1Up: TTimer
     Interval = 20
-    OnTimer = Gracz1WGoreTimer
+    OnTimer = Player1UpTimer
     Left = 944
     Top = 24
   end
-  object Gracz1WDol: TTimer
+  object Player1Down: TTimer
     Interval = 20
-    OnTimer = Gracz1WDolTimer
+    OnTimer = Player1DownTimer
     Left = 944
     Top = 56
   end
-  object Gracz2WGore: TTimer
+  object Player2Up: TTimer
     Interval = 20
-    OnTimer = Gracz2WGoreTimer
+    OnTimer = Player2UpTimer
     Left = 56
     Top = 64
   end
-  object Gracz2WDol: TTimer
+  object Player2Down: TTimer
     Interval = 20
-    OnTimer = Gracz2WDolTimer
+    OnTimer = Player2DownTimer
     Left = 56
     Top = 32
   end
-  object TimerPileczka: TTimer
+  object TimerBall: TTimer
     Enabled = False
     Interval = 100
-    OnTimer = TimerPileczkaTimer
+    OnTimer = TimerBallTimer
     Left = 456
     Top = 16
   end

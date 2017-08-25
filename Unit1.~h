@@ -14,15 +14,15 @@
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
-        TShape *Stol;
-        TImage *Gracz1Paletka;
-        TImage *Gracz2Paletka;
-        TTimer *Gracz1WGore;
-        TTimer *Gracz1WDol;
-        TTimer *Gracz2WGore;
-        TTimer *Gracz2WDol;
-        TImage *Pileczka;
-        TTimer *TimerPileczka;
+        TShape *Table;
+        TImage *Player1Racket;
+        TImage *Player2Racket;
+        TTimer *Player1Up;
+        TTimer *Player1Down;
+        TTimer *Player2Up;
+        TTimer *Player2Down;
+        TImage *Ball;
+        TTimer *TimerBall;
         TPanel *Panel1;
         TLabel *Label1;
         TButton *Button1;
@@ -46,9 +46,9 @@ __published:	// IDE-managed Components
         TButton *Button6;
         TLabel *Label13;
         TLabel *Label14;
-        TImage *Przeszkoda1;
-        TImage *Przeszkoda2;
-        TImage *Przeszkoda3;
+        TImage *Obstacle1;
+        TImage *Obstacle2;
+        TImage *Obstacle3;
         TLabel *Label17;
         TLabel *Label18;
         TButton *Button2;
@@ -58,16 +58,16 @@ __published:	// IDE-managed Components
         TPanel *Panel5;
         TMemo *Memo2;
         TButton *Button8;
-        void __fastcall Gracz1WGoreTimer(TObject *Sender);
-        void __fastcall Gracz1WDolTimer(TObject *Sender);
+        void __fastcall Player1UpTimer(TObject *Sender);
+        void __fastcall Player1DownTimer(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);
         void __fastcall FormKeyUp(TObject *Sender, WORD &Key,
           TShiftState Shift);
         void __fastcall FormCreate(TObject *Sender);
-        void __fastcall Gracz2WGoreTimer(TObject *Sender);
-        void __fastcall Gracz2WDolTimer(TObject *Sender);
-        void __fastcall TimerPileczkaTimer(TObject *Sender);
+        void __fastcall Player2UpTimer(TObject *Sender);
+        void __fastcall Player2DownTimer(TObject *Sender);
+        void __fastcall TimerBallTimer(TObject *Sender);
         void __fastcall Label4Click(TObject *Sender);
         void __fastcall Label6Click(TObject *Sender);
         void __fastcall Label8Click(TObject *Sender);
